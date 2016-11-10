@@ -1,0 +1,11 @@
+# compiled assets
+server/web/assets
+
+server/runtime
+
+server/vendor
+
+# local config
+server/config/local.php
+
+.gitignore~
