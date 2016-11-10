@@ -14,9 +14,10 @@ class m161110_115217_create_database_exclusivepressing extends Migration
             'updated' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
             'deleted' => $this->dateTime()->null(),
             'login' => $this->string()->notNull(),
-            'password' => $this->string()->notNull(),
             'birthdate' => $this->date()->notNull(),
             'options' => $this->text()->null(),
+            'password' => $this->text()->notNull(),
+            'access_token' => $this->text()->notNull(),
         ], 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
         
     }

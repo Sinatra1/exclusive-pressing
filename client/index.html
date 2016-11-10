@@ -1,13 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="exclusivepressing">
     <head>
-        <!-- CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="assets/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css" />
     </head>
-    <body>
-        <!-- JS -->
+    <body ng-controller="index">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/">Тестовое задание для Эксклюзив-процессинг</a>
+                </div>      
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/"><i class="glyphicon glyphicon-home"></i> Главная</a></li>
+                    <li><a href="#/user/index"><i class="glyphicon glyphicon-user"></i> Список пользователей</a></li>
+                    <li><a href="#/user/auth"><i class="glyphicon glyphicon-envelope"></i> Войти</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div id="main" class="container"> 
+            <div ng-view></div>    
+        </div>
+
+        <footer class="text-center">
+            <p>Работает на Yii 2 и AngularJS 1.5</p>
+        </footer>
         <script src="assets/node_modules/angular/angular.min.js"></script>
         <script src="assets/node_modules/angular-route/angular-route.min.js"></script>
+        <script src="assets/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+        <script src="assets/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+        <script src="app.js"></script>
+        <script src="controllers/site.js"></script>   
+
+        <script src="models/user.js"></script>
+        <script src="controllers/user.js"></script>
     </body>
 </html>

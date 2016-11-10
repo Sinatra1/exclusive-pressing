@@ -1,0 +1,44 @@
+<div>
+    <h1>Регистрация</h1>
+
+    <form role="form" name="regForm">
+        <div class= "form-group" ng-class="{error: regForm.login.$invalid}">
+            <label> Логин </label>
+            <div>
+                <input name="login" ng-model="user.login" type= "text" class= "form-control" placeholder="Логин" required/>
+                <span ng-show="regForm.login.$dirty && regForm.login.$invalid" class="help-inline">Логин обязателен</span>
+            </div>
+        </div>
+        <div class= "form-group" ng-class="{error: regForm.password.$invalid}">
+            <label> Пароль </label>
+            <div>
+                <input name="password" ng-model="user.password" type= "password" class= "form-control" placeholder="Пароль" required/>
+                <span ng-show="regForm.password.$dirty && regForm.password.$invalid" class="help-inline">Пароль обязателен</span>
+            </div>
+        </div>
+        <div class= "form-group" ng-class="{error: regForm.passwordTwice.$invalid}">
+            <label> Повторите пароль </label>
+            <div>
+                <input ng-model="user.passwordTwice" type="password" class= "form-control" placeholder="Повтор пароля" required/>
+                <span ng-show="!services.isEaqualPasswords(user)" class="help-inline">Пароли не совпадают</span>
+            </div>
+        </div>
+        <div class= "form-group" ng-class="{error: regForm.birthdate.$invalid}">
+            <label> Дата рождения </label>
+            <div>
+                <input type="text" class="form-control" uib-datepicker-popup="" ng-model="user.birthdate" is-open="dateServices.isOpenDatePicker.opened" datepicker-options="dateServices.dateOptions" style="" placeholder="Дата рождения" required/>
+                <span ng-show="regForm.birthdate.$dirty && regForm.birthdate.$invalid" class="help-inline">Дата рождения обязательна</span>
+                <div uib-datepicker-popup-wrap="" ng-model="date" ng-change="dateSelection(date)" template-url="uib/template/datepickerPopup/popup.html" class="ng-pristine ng-untouched ng-valid ng-scope ng-not-empty ng-valid-date-disabled" style=""><!-- ngIf: isOpen -->
+                </div>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="dateServices.openDatePickerModal()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+
+        <a href="#/user/index" class="btn btn-default">Отмена</a>
+        <button ng-click="createUser(user);" 
+                ng-disabled="regForm.$invalid || !services.isEaqualPasswords(user)"
+                type="submit" class="btn btn-default">Зарегистрироваться</button>
+    </form>
+</div>

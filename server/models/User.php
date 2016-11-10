@@ -4,12 +4,11 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use Yii;
 
 class User extends ActiveRecord implements IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
+
     public $authKey;
     public $accessToken;
 
@@ -24,23 +23,74 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public function rules()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return [
+            [['login', 'password', 'birthdate'], 'required'],
+            [['login'], 'string'],
+            [['login', 'password'], 'string', 'max' => 255],
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function attributeLabels()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
+        return [
+            'id' => 'ID',
+            'login' => 'Login',
+            'password' => 'Password',
+            'birthdate' => 'Birthdate',
+        ];
+    }
+    
+    /**
+     * @return array
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        unset($fields['password']);
+        unset($fields['access_token']);
+
+        return $fields;
+    }
+
+    public function beforeSave($insert)
+    {
+        $result = parent::beforeSave($insert);
+
+        if (!empty($this->password)) {
+            $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         }
 
-        return null;
+        if ($this->isNewRecord) {
+            $this->access_token = Yii::$app->getSecurity()->generatePasswordHash(rand(0, 1000));
+        }
+
+        return $result;
+    }
+    
+    public static function findIdentityByLoginAndPassword($login, $password)
+    {
+        $password = Yii::$app->getSecurity()->generatePasswordHash($password);
+        
+        return static::findOne(['login' => $login, 'password' => $password]);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
 
     /**

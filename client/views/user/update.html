@@ -1,0 +1,32 @@
+<div>
+    <h1>Редактирование пользователя</h1>
+
+    <form role="form" name="updateForm">
+        <div class= "form-group" ng-class="{error: updateForm.login.$invalid}">
+            <label> Логин </label>
+            <div>
+                <input name="login" ng-model="user.login" type= "text" class= "form-control" placeholder="Логин" required/>
+                <span ng-show="updateForm.login.$dirty && updateForm.login.$invalid" class="help-inline">Логин обязателен</span>
+            </div>
+        </div>
+        <div class= "form-group">
+            <label> Пароль </label>
+            <div>
+                <input name="password" ng-model="user.password" type= "password" class= "form-control" placeholder="Пароль" required/>
+                <span ng-show="updateForm.password.$dirty && updateForm.password.$invalid" class="help-inline">Пароль обязателен</span>
+            </div>
+        </div>
+        <div class= "form-group" ng-class="{error: updateForm.director.$invalid}">
+            <label> Дата рождения </label>
+            <div>
+                <input name="birthdate" ng-model="user.birthdate" type= "text" class= "form-control" placeholder="Дата рождения" required/>
+                <span ng-show="updateForm.birthdate.$dirty && updateForm.birthdate.$invalid" class="help-inline">Дата рождения обязательна</span>
+            </div>
+        </div>
+
+        <a href="#/user/index" class="btn btn-default">Отмена</a> 
+        <button ng-click="updateUser(user);" 
+                ng-disabled="isClean() || updateForm.$invalid"
+                type="submit" class="btn btn-default">Сохранить</button>
+    </form>
+</div>

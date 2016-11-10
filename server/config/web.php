@@ -20,6 +20,8 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'enableSession' => false,
+            'loginUrl' => null
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -46,7 +48,7 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['user', 'auth']],
             ],
         ],
     ],

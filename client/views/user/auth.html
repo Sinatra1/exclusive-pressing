@@ -1,0 +1,25 @@
+<div>
+    <h1>Вход</h1>
+
+    <form role="form" name="authForm">
+        <div class= "form-group" ng-class="{error: authForm.login.$invalid}">
+            <label> Логин </label>
+            <div>
+                <input name="login" ng-model="user.login" type= "text" class= "form-control" placeholder="Логин" required/>
+                <span ng-show="authForm.login.$dirty && authForm.login.$invalid" class="help-inline">Логин обязателен</span>
+            </div>
+        </div>
+        <div class= "form-group" ng-class="{error: authForm.password.$invalid}">
+            <label> Пароль </label>
+            <div>
+                <input name="password" ng-model="user.password" type= "password" class= "form-control" placeholder="Пароль" required/>
+                <span ng-show="authForm.password.$dirty && authForm.password.$invalid" class="help-inline">Пароль обязателен</span>
+            </div>
+        </div>
+
+        <a href="#/site/index" class="btn btn-default">Отмена</a>
+        <button ng-click="authUser(user);" 
+                ng-disabled="authForm.$invalid"
+                type="submit" class="btn btn-default">Войти</button>
+    </form>
+</div>
