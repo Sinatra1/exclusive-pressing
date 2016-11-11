@@ -10,7 +10,7 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                     controller: 'create',
                     resolve: {
                         user: function (services, $route) {
-                            return services.getUsers();
+                            return [];
                         },
                     }
                 })
@@ -44,13 +44,14 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
 
 exclusivepressing_user.controller('index', ['$scope', '$http', 'services', 'authService',
     function ($scope, $http, services, authService) {
-        
-        $scope.isAuth = authService.isAuth();
         $scope.authService = authService;
 
-        services.getUsers().then(function (data) {
-            $scope.users = data.data;
-        });
+        if (authService.isAuth()) {
+            services.getUsers().then(function (users) {
+                $scope.users = users.data;
+            });
+        }
+
         $scope.deleteUser = function (userID) {
             if (confirm("Are you sure to delete user number: " + userID) == true && userID > 0) {
                 services.deleteUser(userID);

@@ -13,9 +13,9 @@
                 </div>      
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/"><i class="glyphicon glyphicon-home"></i> Главная</a></li>
-                    <li><a href="#/user/index"><i class="glyphicon glyphicon-user"></i> Список пользователей</a></li>
-                    <li ng-if="!isAuth"><a href="#/user/auth"><i class="glyphicon glyphicon-enter"></i> Войти</a></li>
-                    <li ng-if="isAuth"><a ng-click="authService.logout()"><i class="glyphicon glyphicon-exit"></i> Выйти</a></li>
+                    <li ng-if="authService.isAuth()"><a href="#/user/index"><i class="glyphicon glyphicon-user"></i> Список пользователей</a></li>
+                    <li ng-if="!authService.isAuth()"><a href="#/user/auth"><i class="glyphicon glyphicon-enter"></i> Войти</a></li>
+                    <li ng-if="authService.isAuth()"><a href="" ng-click="authService.logout()"><i class="glyphicon glyphicon-exit"></i> Выйти</a></li>
                 </ul>
             </div>
         </nav>

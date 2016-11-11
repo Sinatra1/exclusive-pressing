@@ -51,7 +51,7 @@ class AuthController extends ActiveController
             'scenario' => $this->createScenario,
         ];
 
-        $actions['delete'] = [
+        $actions['index'] = [
             'class' => 'app\components\LogoutAction',
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],

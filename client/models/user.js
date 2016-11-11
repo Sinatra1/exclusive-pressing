@@ -181,12 +181,13 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
         };
 
         obj.logout = function () {
-            return $http.delete(serviceBase + 'auths')
+            return $http.get(serviceBase + 'auths')
                     .then(successHandler)
                     .catch(errorHandler);
+            
             function successHandler(result) {
 
-                this.deleteAccessToken();
+                obj.deleteAccessToken();
                 $location.path('/site/index');
             }
             function errorHandler(result) {
