@@ -55,7 +55,7 @@ class LoginAction extends Action
             throw new ForbiddenHttpException(json_encode(['password' => 'is_wrong']));
         }
 
-        if (!\Yii::$app->user->login($user, 2592000)) {
+        if (!$user->login()) {
             throw new ServerErrorHttpException('something is wrong inside Yii::$app->user->login');
         }
         

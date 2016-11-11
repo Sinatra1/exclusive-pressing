@@ -36,7 +36,7 @@ class RegAction extends Action
             throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
         }
 
-        if (!\Yii::$app->user->login($model, 2592000)) {
+        if (!$model->login()) {
             throw new ServerErrorHttpException('something is wrong inside Yii::$app->user->login');
         }
         

@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use app\models\Entry;
 use Yii;
 
 class User extends ActiveRecord implements IdentityInterface
@@ -11,6 +12,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public $authKey;
     public $accessToken;
+    protected $cookieTime = 2592000;
 
     /**
      * @return string
@@ -44,7 +46,7 @@ class User extends ActiveRecord implements IdentityInterface
             'birthdate' => 'Birthdate',
         ];
     }
-    
+
     /**
      * @return array
      */
@@ -72,11 +74,11 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $result;
     }
-    
+
     public static function findIdentityByLoginAndPassword($login, $password)
     {
         $password = Yii::$app->getSecurity()->generatePasswordHash($password);
-        
+
         return static::findOne(['login' => $login, 'password' => $password]);
     }
 
@@ -144,4 +146,19 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->password === $password;
     }
+
+    public function login()
+    {
+        $result = \Yii::$app->user->login($this, $this->cookieTime);
+
+        if (empty($result)) {
+            return $result;
+        }
+
+        $entry = new Entry(['user_id' => \Yii::$app->user->id, 'ip' => \Yii::$app->request->getUserIP()]);
+        $entry->save();
+        
+        return $result;
+    }
+
 }
