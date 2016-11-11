@@ -29,14 +29,6 @@ class AuthController extends ActiveController
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
         $behaviors['authenticator']['except'] = ['options'];
 
-        /* $behaviors['access'] = [
-          'class' => AccessControl::className(),
-          'rules' => [
-          'allow' => true,
-          'roles' => ['@'],
-          ]
-          ]; */
-
         return $behaviors;
     }
 

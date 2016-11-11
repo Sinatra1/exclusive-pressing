@@ -21,6 +21,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return 'user';
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEntries()
+    {
+        return $this->hasMany(Entry::className(), ['user_id' => 'id']);
+    }
 
     /**
      * @inheritdoc

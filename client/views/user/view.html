@@ -1,0 +1,34 @@
+<div>
+    <h1>Детальная информация по пользователю</h1>
+
+    <div class= "form-group">
+        <label> Логин </label>
+        <div>
+            {{user.login}}
+        </div>
+    </div>
+    <div class= "form-group">
+        <label> Дата рождения </label>
+        <div>
+            {{user.birthdate}}
+        </div>
+    </div>
+    
+    <div ng-show="entries.length > 0">
+        <table class="table table-striped table-hover">
+            <thead>
+            <th>Дата и время входа</th>
+            <th>IP адрес</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="data in entries">
+                    <td>{{data.created}}</td>
+                    <td>{{data.ip}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="entries.length == 0">
+        Пользователь ниразу не заходил в систему
+    </div>
+</div>

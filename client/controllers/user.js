@@ -14,6 +14,20 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                         },
                     }
                 })
+                .when('/user/view/:userId', {
+                    templateUrl: 'views/user/view.html',
+                    controller: 'view',
+                    resolve: {
+                        user: function (services, $route) {
+                            var userId = $route.current.params.userId;
+                            return services.getUser(userId);
+                        },
+                        entries: function (entryService, $route) {
+                            var userId = $route.current.params.userId;
+                            return entryService.getUserEntries(userId);
+                        },
+                    }
+                })
                 .when('/user/auth', {
                     templateUrl: 'views/user/auth.html',
                     controller: 'auth',
@@ -78,6 +92,12 @@ exclusivepressing_user.controller('index', ['$scope', '$http', 'services', 'auth
         $scope.updateUser = function (user) {
             var results = services.updateUser(user);
         }
+    }]).controller('view', ['$scope', '$http', '$routeParams', 'entryService', '$location', 'user', 'entries',
+    function ($scope, $http, $routeParams, entryService, $location, user, entries) {
+        var original = user.data;
+        $scope.user = angular.copy(original);
+        
+        $scope.entries = entries.data;
     }]).controller('auth', ['$scope', '$http', 'services', '$location', 'user',
     function ($scope, $http, services, $location, user) {
 

@@ -15,6 +15,7 @@
                     <td>{{data.created}}</td>
                     <td>{{data.birthdate}}</td>
                     <td>
+                        <a href="#/user/view/{{data.id}}">Детализация</a>
                         <div ng-if="authService.getCurrentUserId() == data.id">
                             <a class="btn btn-primary btn-xs" href="#/user/update/{{data.id}}">
                                 <i class="glyphicon glyphicon-pencil"></i>

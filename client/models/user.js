@@ -12,7 +12,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
                     .then(successHandler)
                     .catch(errorHandler);
             function successHandler(result) {
-                
+
                 if (result && result.status === 201 && result.data.accessToken) {
                     authService.setAuthData(result.data);
                 }
@@ -216,5 +216,19 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             }
         };
 
+        return obj;
+    }]).factory("entryService", ['$http', '$location', '$route', '$cookies', 'authService',
+    function ($http, $location, $route, $cookies, authService) {
+         var obj = {};
+         
+        obj.getUserEntries = function (userId) {
+            
+            if (!userId) {
+                return [];
+            }
+            
+            return $http.get(authService.getApiRoute('entries/' + userId));
+        };
+        
         return obj;
     }]);
