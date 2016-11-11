@@ -11,7 +11,7 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                     resolve: {
                         user: function (services, $route) {
                             return services.getUsers();
-                        }
+                        },
                     }
                 })
                 .when('/user/auth', {
@@ -19,7 +19,7 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                     controller: 'auth',
                     resolve: {
                         user: function (services, $route) {
-                            return services.getUsers();
+                            return [];
                         }
                     }
                 })
@@ -42,8 +42,11 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                 });
     }]);
 
-exclusivepressing_user.controller('index', ['$scope', '$http', 'services',
-    function ($scope, $http, services) {
+exclusivepressing_user.controller('index', ['$scope', '$http', 'services', 'authService',
+    function ($scope, $http, services, authService) {
+        
+        $scope.isAuth = authService.isAuth();
+        $scope.authService = authService;
 
         services.getUsers().then(function (data) {
             $scope.users = data.data;

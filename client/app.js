@@ -6,7 +6,8 @@ var exclusivepressing = angular.module('exclusivepressing', [
     'ngRoute',
     'exclusivepressing.site',
     'exclusivepressing.user',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ngCookies'
 ]);
 // рабочий модуль
 var exclusivepressing_site = angular.module('exclusivepressing.site', ['ngRoute']);

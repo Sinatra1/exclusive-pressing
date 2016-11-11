@@ -1,6 +1,6 @@
 <div>
     <h1>Регистрация</h1>
-
+    
     <form role="form" name="regForm">
         <div class= "form-group" ng-class="{error: regForm.login.$invalid}">
             <label> Логин </label>
@@ -20,7 +20,7 @@
             <label> Повторите пароль </label>
             <div>
                 <input ng-model="user.passwordTwice" type="password" class= "form-control" placeholder="Повтор пароля" required/>
-                <span ng-show="!services.isEaqualPasswords(user)" class="help-inline">Пароли не совпадают</span>
+                <span ng-show="regForm.password.$dirty && user.passwordTwice &&  !services.isEaqualPasswords(user)" class="help-inline">Пароли не совпадают</span>
             </div>
         </div>
         <div class= "form-group" ng-class="{error: regForm.birthdate.$invalid}">

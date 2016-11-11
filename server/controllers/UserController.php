@@ -3,7 +3,8 @@
 namespace app\controllers;
 
 use yii\rest\ActiveController;
-use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\QueryParamAuth;
+use yii\filters\auth\CompositeAuth;
 
 class UserController extends ActiveController
 {
@@ -28,9 +29,12 @@ class UserController extends ActiveController
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
         $behaviors['authenticator']['except'] = ['options'];
 
-        /*$behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-        ];*/
+        $behaviors['authenticator'] = [
+            'class' => CompositeAuth::className(),
+            'authMethods' => [
+                QueryParamAuth::className(),
+            ],
+        ];
 
         return $behaviors;
     }

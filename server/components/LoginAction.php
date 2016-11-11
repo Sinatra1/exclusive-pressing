@@ -14,7 +14,7 @@ use app\models\User;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AuthAction extends Action
+class LoginAction extends Action
 {
     /**
      * @var string the scenario to be assigned to the new model before it is validated and saved.
@@ -59,6 +59,6 @@ class AuthAction extends Action
             throw new ServerErrorHttpException('something is wrong inside Yii::$app->user->login');
         }
         
-        return ['access_token' => $userArray['access_token']];
+        return ['accessToken' => $userArray['access_token']];
     }
 }
