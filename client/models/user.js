@@ -6,7 +6,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             return $http.get(authService.getApiRoute('users'));
         }
         obj.createUser = function (user) {
-            return $http.post(authService.getApiRoute('users'), user)
+            return $http.post(serviceBase + 'users', user)
                     .then(successHandler)
                     .catch(errorHandler);
             function successHandler(result) {

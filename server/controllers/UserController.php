@@ -24,16 +24,12 @@ class UserController extends ActiveController
             'class' => \yii\filters\Cors::className(),
         ];
 
-        // re-add authentication filter
-        $behaviors['authenticator'] = $auth;
-        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options'];
-
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
             'authMethods' => [
                 QueryParamAuth::className(),
             ],
+            'except' => ['options', 'create']
         ];
 
         return $behaviors;
