@@ -59,6 +59,6 @@ class LoginAction extends Action
             throw new ServerErrorHttpException('something is wrong inside Yii::$app->user->login');
         }
         
-        return ['accessToken' => $userArray['access_token']];
+        return ['accessToken' => $userArray['access_token'], 'id' => \Yii::$app->user->id];
     }
 }

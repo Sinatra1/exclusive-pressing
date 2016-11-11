@@ -35,11 +35,26 @@ class UserController extends ActiveController
         return $behaviors;
     }
 
-    /* public function checkAccess($action, $model = null, $params = [])
-      {
-      if ($action === 'update' || $action === 'delete') {
-      if ($model->id !== \Yii::$app->user->id)
-      throw new \yii\web\ForbiddenHttpException(sprintf('You can edit only yourself.', $action));
-      }
-      } */
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if ($action === 'update' || $action === 'delete') {
+            if ($model->id !== \Yii::$app->user->id)
+                throw new \yii\web\ForbiddenHttpException(sprintf('You can edit only yourself.', $action));
+        }
+    }
+    
+    public function actions()
+    {
+        $actions = parent::actions();
+
+        $actions['create'] = [
+            'class' => 'app\components\RegAction',
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+            'scenario' => $this->createScenario,
+        ];
+
+        return $actions;
+    }
+
 }

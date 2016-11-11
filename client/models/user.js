@@ -1,15 +1,22 @@
 'use strict';
-exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'authService',
-    function ($http, $location, $route, authService) {
+exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'authService', '$cookies',
+    function ($http, $location, $route, authService, $cookies) {
         var obj = {};
+
         obj.getUsers = function () {
             return $http.get(authService.getApiRoute('users'));
-        }
+        };
+
         obj.createUser = function (user) {
             return $http.post(serviceBase + 'users', user)
                     .then(successHandler)
                     .catch(errorHandler);
             function successHandler(result) {
+                
+                if (result && result.status === 201 && result.data.accessToken) {
+                    authService.setAuthData(result.data);
+                }
+
                 $location.path('/user/index');
             }
             function errorHandler(result) {
@@ -17,9 +24,10 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
                 $location.path('/user/create')
             }
         };
+
         obj.getUser = function (userID) {
             return $http.get(authService.getApiRoute('users/' + userID));
-        }
+        };
 
         obj.updateUser = function (user) {
             return $http.put(authService.getApiRoute('users/' + user.id), user)
@@ -33,6 +41,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
                 $location.path('/user/update/' + user.id)
             }
         };
+
         obj.deleteUser = function (userID) {
             return $http.delete(authService.getApiRoute('users/' + userID))
                     .then(successHandler)
@@ -53,7 +62,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             function successHandler(result) {
 
                 if (result && result.status === 200 && result.data.accessToken) {
-                    authService.setAccessToken(result.data.accessToken);
+                    authService.setAuthData(result.data);
                 }
 
                 $location.path('/user/index');
@@ -147,20 +156,30 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
     function ($http, $location, $route, $cookies) {
         var obj = {};
 
-        obj.accessTokenName = 'accessToken';
+        obj.accessData = 'accessData';
 
-        obj.setAccessToken = function (authToken) {
-            $cookies.put(this.accessTokenName, authToken);
+        obj.setAuthData = function (authData) {
+            $cookies.putObject(this.accessData, authData);
         };
 
         obj.getAccessToken = function () {
-            var accessToken = $cookies.get(this.accessTokenName);
+            var accessData = $cookies.getObject(this.accessData);
 
-            return accessToken;
+            if (accessData) {
+                return accessData['accessToken'];
+            }
         };
 
-        obj.deleteAccessToken = function () {
-            var result = $cookies.remove(this.accessTokenName);
+        obj.getCurrentUserId = function () {
+            var accessData = $cookies.getObject(this.accessData);
+
+            if (accessData) {
+                return accessData['id'];
+            }
+        };
+
+        obj.deleteAuthData = function () {
+            var result = $cookies.remove(this.accessData);
 
             return result;
         };
@@ -184,10 +203,10 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             return $http.get(serviceBase + 'auths')
                     .then(successHandler)
                     .catch(errorHandler);
-            
+
             function successHandler(result) {
 
-                obj.deleteAccessToken();
+                obj.deleteAuthData();
                 $location.path('/site/index');
             }
             function errorHandler(result) {

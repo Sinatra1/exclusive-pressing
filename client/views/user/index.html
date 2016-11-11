@@ -1,8 +1,6 @@
 <div>
     <h1>Список пользователей</h1>    
-    <a class="btn btn-primary" href="#/user/create">
-        <i class="glyphicon glyphicon-plus"></i> Добавить
-    </a>
+
     <div ng-show="users.length > 0">
         <table class="table table-striped table-hover">
             <thead>
@@ -17,12 +15,14 @@
                     <td>{{data.created}}</td>
                     <td>{{data.birthdate}}</td>
                     <td>
-                        <a class="btn btn-primary btn-xs" href="#/user/update/{{data.id}}">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a> 
-                        <a class="btn btn-danger btn-xs" ng-click="deleteUser(data.id)">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </a>
+                        <div ng-if="authService.getCurrentUserId() == data.id">
+                            <a class="btn btn-primary btn-xs" href="#/user/update/{{data.id}}">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                            </a> 
+                            <a class="btn btn-danger btn-xs" ng-click="deleteUser(data.id)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>
