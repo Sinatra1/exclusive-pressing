@@ -7,7 +7,9 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             return $http.get(authService.getApiRoute('users'));
         };
 
-        obj.createUser = function (user) {
+        obj.createUser = function (user, $scope) {
+            $scope.regErrorMessage = false;
+            
             return $http.post(serviceBase + 'users', user)
                     .then(successHandler)
                     .catch(errorHandler);
@@ -20,17 +22,20 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
                 $location.path('/user/index');
             }
             function errorHandler(result) {
-                alert("Error data")
-                $location.path('/user/create')
+                $scope.regErrorMessage = true;
             }
         };
 
         obj.getUser = function (userID) {
-            return $http.get(authService.getApiRoute('users/' + userID));
+            var user = $http.get(authService.getApiRoute('users/' + userID));
+            return user;
         };
 
         obj.updateUser = function (user) {
-            return $http.put(authService.getApiRoute('users/' + user.id), user)
+            var savedUser = angular.copy(user);
+            savedUser.options = JSON.stringify(savedUser.options);
+            
+            return $http.put(authService.getApiRoute('users/' + savedUser.id), savedUser)
                     .then(successHandler)
                     .catch(errorHandler);
             function successHandler(result) {
@@ -38,7 +43,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             }
             function errorHandler(result) {
                 alert("Error data")
-                $location.path('/user/update/' + user.id)
+                $location.path('/user/update/' + savedUser.id)
             }
         };
 
@@ -158,6 +163,8 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
     function ($http, $location, $route, $cookies) {
         var obj = {};
 
+        obj.publicUrls = ['create', 'auth'];
+
         obj.accessData = 'accessData';
 
         obj.setAuthData = function (authData) {
@@ -216,6 +223,18 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
                 alert("Error data")
                 $location.path('/user/index');
             }
+        };
+
+        obj.isPublicUrl = function () {
+            var url = $location.url();
+
+            for (var i = 0; i < this.publicUrls.length; i++) {
+                if (url.indexOf(this.publicUrls[i]) != -1) {
+                    return true;
+                }
+            }
+
+            return false;
         };
 
         return obj;

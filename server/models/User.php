@@ -21,7 +21,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return 'user';
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -37,7 +37,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['login', 'password', 'birthdate'], 'required'],
-            [['login'], 'string'],
+            [['login', 'options'], 'string'],
             [['login', 'password'], 'string', 'max' => 255],
         ];
     }
@@ -72,7 +72,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $result = parent::beforeSave($insert);
 
-        if (!empty($this->password)) {
+        $userArray = User::find()->where(['login' => $this->login])->asArray()->one();
+
+        if (!empty($this->password) && $this->password != $userArray['password']) {
             $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         }
 
@@ -87,14 +89,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['access_token' => $token, 'is_deleted' => false]);
     }
-    
+
     public function markDeleted()
     {
         $this->login .= md5(rand(0, 1000));
         $this->is_deleted = true;
         $this->deleted = date('Y-m-d H:i:s', time());
         $result = $this->save();
-        
+
         return $result;
     }
 
@@ -168,7 +170,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         $entry = new Entry(['user_id' => \Yii::$app->user->id, 'ip' => \Yii::$app->request->getUserIP()]);
         $entry->save();
-        
+
         return $result;
     }
 

@@ -54,11 +54,14 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
 exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'services', 'authService',
     function ($scope, $http, $location, services, authService) {
         $scope.authService = authService;
+        var url = $location.url();
 
         if (authService.isAuth()) {
             services.getUsers().then(function (users) {
                 $scope.users = users.data;
             });
+        } else if (!authService.isPublicUrl()) {
+            $location.path('/site/index');
         }
 
         $scope.deleteUser = function (userID) {
@@ -73,24 +76,57 @@ exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'ser
         $scope.services = services;
 
         $scope.createUser = function (user) {
-            var results = services.createUser(user);
+            var results = services.createUser(user, $scope);
         }
     }]).controller('update', ['$scope', '$http', '$routeParams', 'services', '$location', 'user',
     function ($scope, $http, $routeParams, services, $location, user) {
 
         var original = user.data;
         $scope.user = angular.copy(original);
+
+        if (!$scope.user.options) {
+            $scope.user.options = [''];
+        } else {
+            $scope.user.options = JSON.parse($scope.user.options);
+        }
+
         $scope.isClean = function () {
             return angular.equals(original, $scope.user);
         }
+
         $scope.updateUser = function (user) {
             var results = services.updateUser(user);
         }
+
+        $scope.addOptionRow = function () {
+            $scope.user.options[$scope.user.options.length] = '';
+        }
+
+        $scope.deleteOptionRow = function (rowIndex) {
+            $scope.user.options.splice(rowIndex, 1);
+        }
+
+
+
+        $scope.isFilledAllOptions = function () {
+            if (!$scope.user.options) {
+                return false;
+            }
+
+            for (var i = 0; i < $scope.user.options.length; i++) {
+                if (!$scope.user.options[i]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
     }]).controller('view', ['$scope', '$http', '$routeParams', 'entryService', '$location', 'user', 'entries',
     function ($scope, $http, $routeParams, entryService, $location, user, entries) {
         var original = user.data;
         $scope.user = angular.copy(original);
-        
+
         $scope.entries = entries.data;
     }]).controller('auth', ['$scope', '$http', 'services', '$location',
     function ($scope, $http, services, $location) {

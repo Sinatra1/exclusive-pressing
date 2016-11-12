@@ -1,7 +1,7 @@
 <div>
     <h1>Регистрация</h1>
-    
-    <form role="form" name="regForm">
+
+    <form role="form" name="regForm" class="col-sm-5">
         <div class= "form-group" ng-class="{error: regForm.login.$invalid}">
             <label> Логин </label>
             <div>
@@ -20,20 +20,27 @@
             <label> Повторите пароль </label>
             <div>
                 <input ng-model="user.passwordTwice" type="password" class= "form-control" placeholder="Повтор пароля" required/>
-                <span ng-show="regForm.password.$dirty && user.passwordTwice &&  !services.isEaqualPasswords(user)" class="help-inline">Пароли не совпадают</span>
+                <span ng-show="regForm.password.$dirty && user.passwordTwice && !services.isEaqualPasswords(user)" class="help-inline">Пароли не совпадают</span>
             </div>
         </div>
         <div class= "form-group" ng-class="{error: regForm.birthdate.$invalid}">
             <label> Дата рождения </label>
-            <div>
-                <input type="text" class="form-control" uib-datepicker-popup="" ng-model="user.birthdate" is-open="dateServices.isOpenDatePicker.opened" datepicker-options="dateServices.dateOptions" style="" placeholder="Дата рождения" required/>
-                <span ng-show="regForm.birthdate.$dirty && regForm.birthdate.$invalid" class="help-inline">Дата рождения обязательна</span>
-                <div uib-datepicker-popup-wrap="" ng-model="date" ng-change="dateSelection(date)" template-url="uib/template/datepickerPopup/popup.html" class="ng-pristine ng-untouched ng-valid ng-scope ng-not-empty ng-valid-date-disabled" style=""><!-- ngIf: isOpen -->
+            <div class="row">
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" uib-datepicker-popup="" ng-model="user.birthdate" is-open="dateServices.isOpenDatePicker.opened" datepicker-options="dateServices.dateOptions" style="" placeholder="Дата рождения" required/>
                 </div>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="dateServices.openDatePickerModal()"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
+                <div class="row">
+                    <span ng-show="regForm.birthdate.$dirty && regForm.birthdate.$invalid" class="help-inline">Дата рождения обязательна</span>
+                    <div uib-datepicker-popup-wrap="" ng-model="date" ng-change="dateSelection(date)" template-url="uib/template/datepickerPopup/popup.html" class="ng-pristine ng-untouched ng-valid ng-scope ng-not-empty ng-valid-date-disabled" style=""><!-- ngIf: isOpen -->
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="dateServices.openDatePickerModal()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
             </div>
+        </div>
+        <div class= "form-group">
+            <span ng-show="regErrorMessage" class="help-inline">Такой логин уже зарегистрирован</span>
         </div>
 
         <a href="#/user/index" class="btn btn-default">Отмена</a>
