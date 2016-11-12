@@ -47,7 +47,8 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
                     .then(successHandler)
                     .catch(errorHandler);
             function successHandler(result) {
-                $route.reload();
+                authService.deleteAuthData();
+                $location.path('/site/index');
             }
             function errorHandler(result) {
                 alert("Error data")
@@ -55,7 +56,9 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             }
         };
 
-        obj.authUser = function (user) {
+        obj.authUser = function (user, $scope) {
+            $scope.authErrorMessage = false;
+
             return $http.post(serviceBase + 'auths', user)
                     .then(successHandler)
                     .catch(errorHandler);
@@ -69,8 +72,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             }
             function errorHandler(result) {
 
-                alert("Error data")
-                $location.path('/user/auth')
+                $scope.authErrorMessage = true;
             }
         };
 
@@ -212,23 +214,23 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             function errorHandler(result) {
 
                 alert("Error data")
-                $location.path('/user/index')
+                $location.path('/user/index');
             }
         };
 
         return obj;
     }]).factory("entryService", ['$http', '$location', '$route', '$cookies', 'authService',
     function ($http, $location, $route, $cookies, authService) {
-         var obj = {};
-         
+        var obj = {};
+
         obj.getUserEntries = function (userId) {
-            
+
             if (!userId) {
                 return [];
             }
-            
+
             return $http.get(authService.getApiRoute('entries/' + userId));
         };
-        
+
         return obj;
     }]);

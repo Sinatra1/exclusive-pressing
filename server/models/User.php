@@ -83,16 +83,19 @@ class User extends ActiveRecord implements IdentityInterface
         return $result;
     }
 
-    public static function findIdentityByLoginAndPassword($login, $password)
-    {
-        $password = Yii::$app->getSecurity()->generatePasswordHash($password);
-
-        return static::findOne(['login' => $login, 'password' => $password]);
-    }
-
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['access_token' => $token]);
+        return static::findOne(['access_token' => $token, 'is_deleted' => false]);
+    }
+    
+    public function markDeleted()
+    {
+        $this->login .= md5(rand(0, 1000));
+        $this->is_deleted = true;
+        $this->deleted = date('Y-m-d H:i:s', time());
+        $result = $this->save();
+        
+        return $result;
     }
 
     /**

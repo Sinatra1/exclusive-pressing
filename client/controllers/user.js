@@ -31,11 +31,6 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                 .when('/user/auth', {
                     templateUrl: 'views/user/auth.html',
                     controller: 'auth',
-                    resolve: {
-                        user: function (services, $route) {
-                            return [];
-                        }
-                    }
                 })
                 .when('/user/update/:userId', {
                     templateUrl: 'views/user/update.html',
@@ -56,8 +51,8 @@ exclusivepressing_user.config(['$routeProvider', function ($routeProvider) {
                 });
     }]);
 
-exclusivepressing_user.controller('index', ['$scope', '$http', 'services', 'authService',
-    function ($scope, $http, services, authService) {
+exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'services', 'authService',
+    function ($scope, $http, $location, services, authService) {
         $scope.authService = authService;
 
         if (authService.isAuth()) {
@@ -69,7 +64,6 @@ exclusivepressing_user.controller('index', ['$scope', '$http', 'services', 'auth
         $scope.deleteUser = function (userID) {
             if (confirm("Are you sure to delete user number: " + userID) == true && userID > 0) {
                 services.deleteUser(userID);
-                $route.reload();
             }
         };
     }]).controller('create', ['$scope', '$http', 'services', '$location', 'dateServices', 'user',
@@ -98,10 +92,10 @@ exclusivepressing_user.controller('index', ['$scope', '$http', 'services', 'auth
         $scope.user = angular.copy(original);
         
         $scope.entries = entries.data;
-    }]).controller('auth', ['$scope', '$http', 'services', '$location', 'user',
-    function ($scope, $http, services, $location, user) {
+    }]).controller('auth', ['$scope', '$http', 'services', '$location',
+    function ($scope, $http, services, $location) {
 
         $scope.authUser = function (user) {
-            var results = services.authUser(user);
+            var results = services.authUser(user, $scope);
         }
     }]);

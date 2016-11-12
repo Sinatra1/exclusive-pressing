@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\components\auth;
 
 use yii\rest\Action;
 

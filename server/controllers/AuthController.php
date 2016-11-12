@@ -37,14 +37,14 @@ class AuthController extends ActiveController
         $actions = parent::actions();
 
         $actions['create'] = [
-            'class' => 'app\components\LoginAction',
+            'class' => 'app\components\auth\LoginAction',
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $this->createScenario,
         ];
 
         $actions['index'] = [
-            'class' => 'app\components\LogoutAction',
+            'class' => 'app\components\auth\LogoutAction',
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],
         ];

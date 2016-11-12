@@ -5,6 +5,8 @@ namespace app\controllers;
 use yii\rest\ActiveController;
 use yii\filters\auth\QueryParamAuth;
 use yii\filters\auth\CompositeAuth;
+use yii\data\ActiveDataProvider;
+use app\models\User;
 
 class UserController extends ActiveController
 {
@@ -41,16 +43,31 @@ class UserController extends ActiveController
                 throw new \yii\web\ForbiddenHttpException(sprintf('You can edit only yourself.', $action));
         }
     }
-    
+
+    public function getListDataProvider()
+    {
+        return new ActiveDataProvider([
+            'query' => User::find()->where(['is_deleted' => false])
+        ]);
+    }
+
     public function actions()
     {
         $actions = parent::actions();
 
+        $actions['index']['prepareDataProvider'] = [$this, 'getListDataProvider'];
+
         $actions['create'] = [
-            'class' => 'app\components\RegAction',
+            'class' => 'app\components\user\RegAction',
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $this->createScenario,
+        ];
+
+        $actions['delete'] = [
+            'class' => 'app\components\user\DeleteAction',
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
         ];
 
         return $actions;

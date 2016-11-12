@@ -13,13 +13,15 @@ class m161110_115217_create_database_exclusivepressing extends Migration
             'created' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
             'updated' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
             'deleted' => $this->dateTime()->null(),
-            'login' => $this->string()->notNull(),
+            'is_deleted' => $this->boolean()->notNull()->defaultValue('0'),
+            'login' => $this->string()->unique()->notNull(),
             'birthdate' => $this->date()->notNull(),
             'options' => $this->text()->null(),
             'password' => $this->text()->notNull(),
             'access_token' => $this->text()->notNull(),
         ], 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
-        
+          
+        $this->createIndex('idx_' . User::tableName() . '_login', User::tableName(), 'login');
     }
 
     public function safeDown()

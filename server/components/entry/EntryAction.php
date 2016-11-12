@@ -1,10 +1,10 @@
 <?php
 
-namespace app\components;
+namespace app\components\entry;
 
 use yii\rest\Action;
 
-class EntryAction extends Action
+class IndexAction extends Action
 {
 
     public function run($id)

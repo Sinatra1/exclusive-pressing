@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\components\user;
 
 use yii\web\ServerErrorHttpException;
 use yii\rest\Action;

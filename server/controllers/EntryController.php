@@ -39,7 +39,7 @@ class EntryController extends ActiveController
         $actions = parent::actions();
 
         $actions['view'] = [
-            'class' => 'app\components\EntryAction',
+            'class' => 'app\components\entry\IndexAction',
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],
         ];

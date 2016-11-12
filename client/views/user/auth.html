@@ -16,6 +16,9 @@
                 <span ng-show="authForm.password.$dirty && authForm.password.$invalid" class="help-inline">Пароль обязателен</span>
             </div>
         </div>
+        <div class= "form-group">
+            <span ng-show="authErrorMessage" class="help-inline">Неверный логин или пароль</span>
+        </div>
 
         <a href="#/site/index" class="btn btn-default">Отмена</a>
         <button ng-click="authUser(user);" 
