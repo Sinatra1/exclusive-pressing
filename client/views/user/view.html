@@ -13,7 +13,13 @@
             {{user.birthdate}}
         </div>
     </div>
-    
+    <div class="form-group">
+        <label> Опциональные данные </label>
+        <div ng-repeat="(key, option) in user.options track by $index" class="form-group">
+            {{user.options[key]}}
+        </div>
+    </div>
+
     <div ng-show="entries.length > 0">
         <table class="table table-striped table-hover">
             <thead>

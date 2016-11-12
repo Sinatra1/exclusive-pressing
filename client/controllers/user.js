@@ -106,8 +106,6 @@ exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'ser
             $scope.user.options.splice(rowIndex, 1);
         }
 
-
-
         $scope.isFilledAllOptions = function () {
             if (!$scope.user.options) {
                 return false;
@@ -126,6 +124,12 @@ exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'ser
     function ($scope, $http, $routeParams, entryService, $location, user, entries) {
         var original = user.data;
         $scope.user = angular.copy(original);
+        
+        if (!$scope.user.options) {
+            $scope.user.options = [''];
+        } else {
+            $scope.user.options = JSON.parse($scope.user.options);
+        }
 
         $scope.entries = entries.data;
     }]).controller('auth', ['$scope', '$http', 'services', '$location',

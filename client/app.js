@@ -9,11 +9,10 @@ var exclusivepressing = angular.module('exclusivepressing', [
     'ui.bootstrap',
     'ngCookies'
 ]);
-// рабочий модуль
+
 var exclusivepressing_site = angular.module('exclusivepressing.site', ['ngRoute']);
 var exclusivepressing_user = angular.module('exclusivepressing.user', ['ngRoute']);
 
 exclusivepressing.config(['$routeProvider', function ($routeProvider) {
-
-        $routeProvider.otherwise({redirectTo: '/site/index'});
-    }]);
+    $routeProvider.otherwise({redirectTo: '/site/index'});
+}]);
