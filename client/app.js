@@ -1,6 +1,6 @@
 'use strict';
 
-var serviceBase = 'http://exclusive-pressing.server/';
+var serviceBase = top.location.origin + '/server/web/';
 
 var exclusivepressing = angular.module('exclusivepressing', [
     'ngRoute',
