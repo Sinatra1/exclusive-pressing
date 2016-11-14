@@ -114,8 +114,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
         obj.dateOptions = {
             dateDisabled: disabled,
             formatYear: 'yy',
-            maxDate: new Date(2020, 5, 22),
-            minDate: new Date(),
+            maxDate: new Date(),
             startingDay: 1
         };
 

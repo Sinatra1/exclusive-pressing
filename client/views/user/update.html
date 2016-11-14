@@ -18,9 +18,18 @@
         </div>
         <div class="form-group" ng-class="{error: updateForm.director.$invalid}">
             <label> Дата рождения </label>
-            <div>
-                <input name="birthdate" ng-model="user.birthdate" type= "text" class="form-control" placeholder="Дата рождения" required/>
-                <span ng-show="updateForm.birthdate.$dirty && updateForm.birthdate.$invalid" class="help-inline">Дата рождения обязательна</span>
+            <div class="row">
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" uib-datepicker-popup="" ng-model="user.birthdate" is-open="dateServices.isOpenDatePicker.opened" datepicker-options="dateServices.dateOptions" style="" placeholder="Дата рождения" required/>
+                </div>
+                <div class="row">
+                    <span ng-show="updateForm.birthdate.$dirty && updateForm.birthdate.$invalid" class="help-inline">Дата рождения обязательна</span>
+                    <div uib-datepicker-popup-wrap="" ng-model="date" ng-change="dateSelection(date)" template-url="uib/template/datepickerPopup/popup.html" class="ng-pristine ng-untouched ng-valid ng-scope ng-not-empty ng-valid-date-disabled" style=""><!-- ngIf: isOpen -->
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="dateServices.openDatePickerModal()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
