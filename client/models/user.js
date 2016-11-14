@@ -107,7 +107,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
 
         obj.inlineOptions = {
             customClass: getDayClass,
-            minDate: new Date(),
+            maxDate: new Date(),
             showWeeks: true
         };
 

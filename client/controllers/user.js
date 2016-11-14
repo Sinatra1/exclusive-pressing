@@ -82,6 +82,7 @@ exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'ser
     function ($scope, $http, $routeParams, services, $location, user, dateServices) {
 
         $scope.dateServices = dateServices;
+        
         var original = user.data;
         $scope.user = angular.copy(original);
 
