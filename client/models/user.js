@@ -9,7 +9,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
 
         obj.createUser = function (user, $scope) {
             $scope.regErrorMessage = false;
-            
+
             return $http.post(serviceBase + 'users', user)
                     .then(successHandler)
                     .catch(errorHandler);
@@ -34,7 +34,7 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
         obj.updateUser = function (user) {
             var savedUser = angular.copy(user);
             savedUser.options = JSON.stringify(savedUser.options);
-            
+
             return $http.put(authService.getApiRoute('users/' + savedUser.id), savedUser)
                     .then(successHandler)
                     .catch(errorHandler);
@@ -88,6 +88,16 @@ exclusivepressing_user.factory("services", ['$http', '$location', '$route', 'aut
             }
 
             return false;
+        };
+
+        obj.prepareOptions = function (user) {
+            if (!user.options) {
+                user.options = [''];
+            } else {
+                user.options = JSON.parse(user.options);
+            }
+
+            return user;
         };
 
         return obj;

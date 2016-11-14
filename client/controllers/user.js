@@ -84,11 +84,7 @@ exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'ser
         var original = user.data;
         $scope.user = angular.copy(original);
 
-        if (!$scope.user.options) {
-            $scope.user.options = [''];
-        } else {
-            $scope.user.options = JSON.parse($scope.user.options);
-        }
+        $scope.user = services.prepareOptions($scope.user);
 
         $scope.isClean = function () {
             return angular.equals(original, $scope.user);
@@ -120,16 +116,12 @@ exclusivepressing_user.controller('index', ['$scope', '$http', '$location', 'ser
             return true;
         }
 
-    }]).controller('view', ['$scope', '$http', '$routeParams', 'entryService', '$location', 'user', 'entries',
-    function ($scope, $http, $routeParams, entryService, $location, user, entries) {
+    }]).controller('view', ['$scope', '$http', '$routeParams', 'entryService', '$location', 'user', 'entries', 'services',
+    function ($scope, $http, $routeParams, entryService, $location, user, entries, services) {
         var original = user.data;
         $scope.user = angular.copy(original);
         
-        if (!$scope.user.options) {
-            $scope.user.options = [''];
-        } else {
-            $scope.user.options = JSON.parse($scope.user.options);
-        }
+        $scope.user = services.prepareOptions($scope.user);
 
         $scope.entries = entries.data;
     }]).controller('auth', ['$scope', '$http', 'services', '$location',
